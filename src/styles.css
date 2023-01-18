@@ -31,13 +31,13 @@ div{
     height: 30px;
 }
 
-/* .gallery{
+.gallery{
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-} */
+} 
 
-/* .photo-card{
+.photo-card{
     width: calc((100% - 40px)/4);
     border: 1px solid #000;
 }
@@ -57,4 +57,4 @@ div{
     justify-content: center;
     align-items: center;
     gap: 5px;
-} */
+}
