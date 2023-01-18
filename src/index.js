@@ -24,6 +24,7 @@ async function  onSubmit(evt){
         const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
         const data = await response.data;  
         await createMarkup(data.hits)
+
         console.log(data)
     }catch (err){
         console.log(err)
@@ -66,4 +67,4 @@ const simple = new SimpleLightbox('.gallery a', {
     close: true });
 
 
-
+console.log('hello world')
