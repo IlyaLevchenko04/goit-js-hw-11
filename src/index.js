@@ -7,7 +7,6 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 let page = 1;
-const axios = require('axios');
 const form = document.querySelector('#search-form');
 const input = document.querySelector('.input');
 const btn = document.querySelector('.btn');
