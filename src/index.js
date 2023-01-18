@@ -67,4 +67,4 @@ const simple = new SimpleLightbox('.gallery a', {
     close: true });
 
 
-console.log('hello world')
+
