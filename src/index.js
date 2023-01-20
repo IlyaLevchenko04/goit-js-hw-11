@@ -3,7 +3,7 @@ import Notiflix from "notiflix";
 import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-
+console.log('hello mother')
 
 
 let page = 1;
@@ -67,4 +67,4 @@ const simple = new SimpleLightbox('.gallery a', {
     close: true });
 
 
-console.log('hello world')
+
