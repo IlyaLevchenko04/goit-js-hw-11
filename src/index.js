@@ -3,7 +3,7 @@ import Notiflix from "notiflix";
 import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-console.log('hello mother')
+
 
 
 let page = 1;
@@ -23,6 +23,7 @@ async function  onSubmit(evt){
         const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
         const data = await response.data;  
        if(data.hits.length > 0){
+          simple.refresh();
           await createMarkup(data.hits);
           console.log(data)
        }else{
@@ -58,7 +59,7 @@ async function createMarkup(mass){
       </div></a>`
     }).join('');
      gallery.innerHTML += await markup;
-     simple.refresh();
+     
     
 }
 
@@ -69,7 +70,7 @@ const simple = new SimpleLightbox('.gallery a', {
     nav: true,
     close: true });
 
-    console.log('mom')
+    console.log('ilya')
 
 
 
