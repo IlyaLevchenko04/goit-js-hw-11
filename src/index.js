@@ -22,9 +22,9 @@ async function  onSubmit(evt){
     try{
         const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
         const data = await response.data;  
-        await createMarkup(data.hits)
+       if(data.hits.length === 0){
 
-        console.log(data)
+       }
     }catch (err){
         console.log(err)
     }
@@ -35,7 +35,7 @@ async function  onSubmit(evt){
 async function createMarkup(mass){
     
     
-    const markup = mass.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
+    const markup =  await mass.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
         return `<a href="${largeImageURL}" alt="${tags}"><div class="photo-card">
         <img src="${webformatURL}" alt="${tags}" loading="lazy" class="card-image"/>
         <div class="info">
@@ -54,7 +54,8 @@ async function createMarkup(mass){
         </div>
       </div></a>`
     }).join('');
-    gallery.innerHTML += markup;
+     gallery.innerHTML += await markup;
+    await simple.refresh();
     
 }
 
@@ -66,4 +67,4 @@ const simple = new SimpleLightbox('.gallery a', {
     close: true });
 
 
-console.log('hello')
+console.log('hello world')
