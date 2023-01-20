@@ -28,7 +28,6 @@ async function  onSubmit(evt){
         const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
         const data = await response.data;  
        if(data.hits.length > 0){
-          new simple.refresh();
           await createMarkup(data.hits);
           console.log(data)
        }else{
