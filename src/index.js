@@ -1,71 +1,68 @@
-import axios from "axios";
-import Notiflix from "notiflix";
-import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import './css/styles.css';
+import Notiflix from 'notiflix';
+import debounce from 'lodash.debounce';
+import { fetchApi } from './fetchCountries.js';
 
 
 
-const simple = new SimpleLightbox('.gallery a', { 
-    captionsData: 'alt',
-    captionPosition : 'bottom',
-    captionDelay : 250,
-    nav: true,
-    close: true });
-let page = 1;
-const form = document.querySelector('#search-form');
-const input = document.querySelector('.input');
-const btn = document.querySelector('.btn');
-const gallery = document.querySelector('.gallery');
-const guard = document.querySelector('.js-guard');
-const apiKey = '32923550-e97d894c3a0a0654cb5be36c1'
-const BASE_URL = `https://pixabay.com/api/?key=${apiKey}&`;
-
-form.addEventListener('submit', onSubmit);
-
-async function  onSubmit(evt){
-    evt.preventDefault();
-    try{
-        const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
-        const data = await response.data;  
-       if(data.hits.length > 0){
-          await createMarkup(data.hits);
-          console.log(data)
-       }else{
-        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-       }
-    }catch (err){
-        console.log(err)
-    }
-    
-}
+export const BASE_URL = 'https://restcountries.com/v3.1/name'
+const DEBOUNCE_DELAY = 300;
 
 
-async function createMarkup(mass){
-    
-    
-    const markup =  await mass.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
-        return `<a href="${largeImageURL}" alt="${tags}"><div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" class="card-image"/>
-        <div class="info">
-          <p class="info-item">
-            <b>Likes ${likes}</b>
-          </p>
-          <p class="info-item">
-            <b>Views ${views}</b>
-          </p>
-          <p class="info-item">
-            <b>Comments ${comments}</b>
-          </p>
-          <p class="info-item">
-            <b>Downloads ${downloads}</b>
-          </p>
-        </div>
-      </div></a>`
-    }).join('');
-     gallery.innerHTML += await markup;
-     
-    
+export const input = document.querySelector('#search-box');
+const list = document.querySelector('.country-list');
+const info = document.querySelector('.country-info');
+
+input.addEventListener('input', debounce(onInput, 300));
+
+
+
+
+
+
+
+function onInput(){
+    fetchApi(input.value.trim()).then((data) => {
+        
+        if(input.value.trim() === ''){
+            list.innerHTML = '';
+        }else if(data.length > 10){
+            Notiflix.Notify.info('Too many matches found. Please enter a more specific name.' );
+            list.innerHTML = ' ';
+        }else if(2 < data.length < 10){
+            createMarkupForMultiply(data);
+        }
+        
+        if(data.length === 1){
+            createMarkupForOne(data)
+        }
+
+        
+        
+    }).catch(err => {
+        if(input.value.trim()){
+            Notiflix.Notify.failure('Oops, there is no country with that name');
+        }
+})
 }
 
 
 
+
+function createMarkupForOne(mass){
+    const markup = mass.map(({capital, languages, population, name:{official}, flags:{svg}}) => {
+        return `<h2><img src='${svg}' alt="Country flag" width='20px'>${official}</h2>
+        <p>Capital: ${capital[0]}</p>
+        <p>Languages: ${Object.values(languages)}</p>
+        <p>Population: ${population}</p>`
+    }).join(' ');
+    list.innerHTML = markup;
+}
+
+
+function createMarkupForMultiply(mass){
+    const markup = mass.map(({name:{official}, flags:{svg}}) => {
+        return `<h2><img src='${svg}' alt="Country flag" width='20px'>${official}</h2>`
+    }).join(' ');
+    list.innerHTML = markup;
+}
