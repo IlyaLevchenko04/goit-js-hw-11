@@ -22,8 +22,11 @@ async function  onSubmit(evt){
     try{
         const response = await axios.get(`${BASE_URL}q=${input.value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=1`);
         const data = await response.data;  
-       if(data.hits.length === 0){
-
+       if(data.hits.length > 0){
+          await createMarkup(data.hits);
+          console.log(data)
+       }else{
+        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
        }
     }catch (err){
         console.log(err)
@@ -65,6 +68,8 @@ const simple = new SimpleLightbox('.gallery a', {
     captionDelay : 250,
     nav: true,
     close: true });
+
+    console.log('mom')
 
 
 

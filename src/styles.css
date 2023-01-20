@@ -1,6 +1,8 @@
 a{
     text-decoration: none;
     color: black;
+    width: calc((100% - 40px)/4);
+    border: 1px solid #000;
 }
 
 body{
@@ -38,8 +40,7 @@ div{
 } 
 
 .photo-card{
-    width: calc((100% - 40px)/4);
-    border: 1px solid #000;
+    width: 100%;
 }
 
 .card-image{
