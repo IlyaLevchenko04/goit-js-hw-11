@@ -55,7 +55,7 @@ async function createMarkup(mass){
       </div></a>`
     }).join('');
      gallery.innerHTML += await markup;
-    await simple.refresh();
+     simple.refresh();
     
 }
 
