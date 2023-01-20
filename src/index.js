@@ -70,7 +70,3 @@ async function createMarkup(mass){
 
 
 
-    console.log('ilya')
-
-
-
