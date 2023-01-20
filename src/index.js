@@ -5,7 +5,12 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 
-
+const simple = new SimpleLightbox('.gallery a', { 
+    captionsData: 'alt',
+    captionPosition : 'bottom',
+    captionDelay : 250,
+    nav: true,
+    close: true });
 let page = 1;
 const form = document.querySelector('#search-form');
 const input = document.querySelector('.input');
@@ -63,12 +68,7 @@ async function createMarkup(mass){
     
 }
 
-const simple = new SimpleLightbox('.gallery a', { 
-    captionsData: 'alt',
-    captionPosition : 'bottom',
-    captionDelay : 250,
-    nav: true,
-    close: true });
+
 
     console.log('ilya')
 
